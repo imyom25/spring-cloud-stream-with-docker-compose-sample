@@ -1,0 +1,23 @@
+version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:3.6-management-alpine
+    ports:
+    - "5672:5672"
+    - "15672:15672"
+  producer-docker:
+    build: ./producer
+    ports:
+    - "8099:8099"
+    links:
+    - rabbitmq
+    environment:
+      RABBIT_HOST: rabbitmq
+  consumer-docker:
+    build: ./consumer
+    ports:
+    - "8097:8097"
+    links:
+    - rabbitmq
+    environment:
+      RABBIT_HOST: rabbitmq
